@@ -1,6 +1,4 @@
 
-
-
 # toolchain
 TOOLCHAIN    = arm-none-eabi-
 CC           = $(TOOLCHAIN)gcc
@@ -9,11 +7,8 @@ AS           = $(TOOLCHAIN)gcc -x assembler-with-cpp
 HEX          = $(CP) -O ihex
 BIN          = $(CP) -O binary -S
 
-# define mcu
+# define mcu, specify the target processor
 MCU          = cortex-m3
-
-# List all C defines here
-DDEFS =
 
 # define root dir
 ROOT_DIR     = .
