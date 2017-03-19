@@ -1,0 +1,13 @@
+language: c
+dist: trusty
+
+sudo: required
+
+compiler:
+  - arm-none-eabi-gcc
+
+script:
+  - make
+
+notifications:
+  email: true
