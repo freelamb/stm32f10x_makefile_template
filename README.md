@@ -1,4 +1,6 @@
-#STM32 Makefile Template
+# STM32 Makefile Template
+
+[![Build Status](https://travis-ci.org/runmec/stm32f10x_makefile_template.svg?branch=master)](https://travis-ci.org/runmec/stm32f10x_makefile_template)
 
 ## Requirement
 
