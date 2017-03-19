@@ -3,7 +3,7 @@ dist: trusty
 
 sudo: required
 
-install: arm-none-eabi-gcc
+install: gcc-arm-none-eabi
 
 compiler:
   - arm-none-eabi-gcc
