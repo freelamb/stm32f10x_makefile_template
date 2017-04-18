@@ -3,6 +3,7 @@
 *.ko
 *.obj
 *.elf
+*.lst
 
 # Precompiled Headers
 *.gch
@@ -31,3 +32,8 @@
 # Debug files
 *.dSYM/
 *.su
+.idea/
+CMakeLists.txt
+bin/main.bin
+bin/main.map
+cmake-build-debug/

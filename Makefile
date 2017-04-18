@@ -28,8 +28,10 @@ USER_DIR     = $(ROOT_DIR)/user
 LINK_SCRIPT  = $(ROOT_DIR)/stm32_flash.ld
 
 # user specific
-SRC      = $(USER_DIR)/main.c
-ASM_SRC  =
+SRC          = $(USER_DIR)/main.c
+SRC         += $(USER_DIR)/uart_log.c
+
+ASM_SRC      =
 
 # user include
 INCLUDE_DIRS  = $(USER_DIR)
