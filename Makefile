@@ -28,6 +28,9 @@ USER_DIR     = $(ROOT_DIR)/user
 # link file
 LINK_SCRIPT  = $(ROOT_DIR)/stm32_flash.ld
 
+# stm32f10x lib src
+LIB_SRC      =
+
 # user specific
 SRC          = $(USER_DIR)/main.c
 SRC         += $(USER_DIR)/uart_log.c
@@ -45,7 +48,7 @@ INCDIR  = $(patsubst %, -I%, $(INCLUDE_DIRS))
 # run from Flash
 DEFS	 = $(DDEFS) -DRUN_FROM_FLASH=1
 
-OBJECTS  = $(ASM_SRC:.s=.o) $(SRC:.c=.o)
+OBJECTS  = $(ASM_SRC:.s=.o) $(SRC:.c=.o) $(LIB_SRC:.c=.o)
 
 # Define optimisation level here
 OPT = -Os
@@ -54,7 +57,7 @@ MC_FLAGS = -mcpu=$(MCU)
 
 AS_FLAGS = $(MC_FLAGS) -g -gdwarf-2 -mthumb  -Wa,-amhls=$(<:.s=.lst)
 CP_FLAGS = $(MC_FLAGS) $(OPT) -g -gdwarf-2 -mthumb -fomit-frame-pointer -Wall -fverbose-asm -Wa,-ahlms=$(<:.c=.lst) $(DEFS)
-LD_FLAGS = $(MC_FLAGS) -g -gdwarf-2 -mthumb -nostartfiles -Xlinker --gc-sections -T$(LINK_SCRIPT) -Wl,-Map=$(PROJECT_NAME).map,--cref,--no-warn-mismatch $(LIBDIR)
+LD_FLAGS = $(MC_FLAGS) -g -gdwarf-2 -mthumb -nostartfiles -Xlinker --gc-sections -T$(LINK_SCRIPT) -Wl,-Map=$(PROJECT_NAME).map,--cref,--no-warn-mismatch
 
 #
 # makefile rules
