@@ -13,14 +13,17 @@ MCU          = cortex-m3
 # all the files will be generated with this name (main.elf, main.bin, main.hex, etc)
 PROJECT_NAME=stm32f10x_makefile_template
 
+# specify define
+DDEFS       =
+
 # define root dir
 ROOT_DIR     = .
 
 # define include dir
 INCLUDE_DIRS = .
 
-# define stm32f0x lib dir
-LIB_DIR      = $(ROOT_DIR)/stm32f10x_lib
+# define stm32f10x lib dir
+STM32F10x_LIB_DIR      = $(ROOT_DIR)/stm32f10x_lib
 
 # define user dir
 USER_DIR     = $(ROOT_DIR)/user
@@ -29,10 +32,11 @@ USER_DIR     = $(ROOT_DIR)/user
 LINK_SCRIPT  = $(ROOT_DIR)/stm32_flash.ld
 
 # stm32f10x lib src
-LIB_SRC      =
+STM32F10X_LIB_SRC      =
 
 # user specific
-SRC          = $(USER_DIR)/main.c
+SRC         =
+SRC         += $(USER_DIR)/main.c
 SRC         += $(USER_DIR)/uart_log.c
 
 ASM_SRC      =
@@ -43,12 +47,12 @@ INCLUDE_DIRS  += $(USER_DIR)
 # include sub makefiles
 include makefile_std_lib.mk  # STM32 Standard Peripheral Library
 
-INCDIR  = $(patsubst %, -I%, $(INCLUDE_DIRS))
+INC_DIR  = $(patsubst %, -I%, $(INCLUDE_DIRS))
 
 # run from Flash
 DEFS	 = $(DDEFS) -DRUN_FROM_FLASH=1
 
-OBJECTS  = $(ASM_SRC:.s=.o) $(SRC:.c=.o) $(LIB_SRC:.c=.o)
+OBJECTS  = $(ASM_SRC:.s=.o) $(SRC:.c=.o) $(STM32F10X_LIB_SRC:.c=.o)
 
 # Define optimisation level here
 OPT = -Os
@@ -66,13 +70,13 @@ all: $(OBJECTS) $(PROJECT_NAME).elf  $(PROJECT_NAME).hex $(PROJECT_NAME).bin
 	$(TOOLCHAIN)size $(PROJECT_NAME).elf
 
 %o: %c
-	$(CC) -c $(CP_FLAGS) -I . $(INCDIR) $< -o $@
+	$(CC) -c $(CP_FLAGS) -I . $(INC_DIR) $< -o $@
 
 %o: %s
 	$(AS) -c $(AS_FLAGS) $< -o $@
 
 %elf: $(OBJECTS)
-	$(CC) $(OBJECTS) $(LD_FLAGS) $(LIBS) -o $@
+	$(CC) $(OBJECTS) $(LD_FLAGS) -o $@
 
 %hex: %elf
 	$(HEX) $< $@
