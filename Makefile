@@ -77,8 +77,8 @@ all: $(OBJECTS) $(PROJECT_NAME).elf  $(PROJECT_NAME).hex $(PROJECT_NAME).bin
 %bin: %elf
 	$(BIN)  $< $@
 
-flash: $(PROJECT).bin
-	st-flash write ./*.bin 0x8000000
+flash: $(PROJECT_NAME).bin
+	st-flash write $(PROJECT_NAME).bin 0x8000000
 
 erase:
 	st-flash erase
