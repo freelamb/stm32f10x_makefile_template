@@ -13,20 +13,34 @@ Texane stlink to flash the STM32F10x (https://github.com/texane/stlink)
 
 ### build project
 
-```$ make```
+```
+$ make
+```
 
 ### clean project
 
-```$ make clean```
+```
+$ make clean
+```
 
 ### download to mcu by stlink 
-```$ make flash```
+```
+$ make flash
+```
 
 ### erase flash
-```$ make erase```
+```
+$ make erase
+```
 
 ### download main.bin to mcu
-``` $ ./build.sh```
+```
+$ ./build.sh
+```
+
+## Debug base on st-link
+
+
 
 ## Example
 

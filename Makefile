@@ -10,17 +10,18 @@ BIN          = $(CP) -O binary -S
 # define mcu, specify the target processor
 MCU          = cortex-m3
 
+# all the files will be generated with this name (main.elf, main.bin, main.hex, etc)
+PROJECT_NAME=stm32f10x_makefile_template
+
 # define root dir
 ROOT_DIR     = .
 
 # define include dir
-INCLUDE_DIRS =
+INCLUDE_DIRS = .
 
-# define bin dir
-BIN_DIR      = $(ROOT_DIR)/bin
+# define stm32f0x lib dir
+LIB_DIR      = $(ROOT_DIR)/stm32f10x_lib
 
-# define lib dir
-LIB_DIR      = $(ROOT_DIR)/Libraries
 # define user dir
 USER_DIR     = $(ROOT_DIR)/user
 
@@ -34,7 +35,7 @@ SRC         += $(USER_DIR)/uart_log.c
 ASM_SRC      =
 
 # user include
-INCLUDE_DIRS  = $(USER_DIR)
+INCLUDE_DIRS  += $(USER_DIR)
 
 # include sub makefiles
 include makefile_std_lib.mk  # STM32 Standard Peripheral Library
@@ -53,10 +54,7 @@ MC_FLAGS = -mcpu=$(MCU)
 
 AS_FLAGS = $(MC_FLAGS) -g -gdwarf-2 -mthumb  -Wa,-amhls=$(<:.s=.lst)
 CP_FLAGS = $(MC_FLAGS) $(OPT) -g -gdwarf-2 -mthumb -fomit-frame-pointer -Wall -fverbose-asm -Wa,-ahlms=$(<:.c=.lst) $(DEFS)
-LD_FLAGS = $(MC_FLAGS) -g -gdwarf-2 -mthumb -nostartfiles -Xlinker --gc-sections -T$(LINK_SCRIPT) -Wl,-Map=$(PROJECT_NAME).map,--cref,--no-warn-mismatch $(LIBDIR) $(LIB)
-
-# all the files will be generated with this name (main.elf, main.bin, main.hex, etc)
-PROJECT_NAME=$(BIN_DIR)/main
+LD_FLAGS = $(MC_FLAGS) -g -gdwarf-2 -mthumb -nostartfiles -Xlinker --gc-sections -T$(LINK_SCRIPT) -Wl,-Map=$(PROJECT_NAME).map,--cref,--no-warn-mismatch $(LIBDIR)
 
 #
 # makefile rules
@@ -80,7 +78,7 @@ all: $(OBJECTS) $(PROJECT_NAME).elf  $(PROJECT_NAME).hex $(PROJECT_NAME).bin
 	$(BIN)  $< $@
 
 flash: $(PROJECT).bin
-	st-flash write $(PROJECT).bin 0x8000000
+	st-flash write ./*.bin 0x8000000
 
 erase:
 	st-flash erase
@@ -92,5 +90,5 @@ clean:
 	-rm -rf $(PROJECT_NAME).hex
 	-rm -rf $(PROJECT_NAME).bin
 	-rm -rf $(SRC:.c=.lst)
-	-rm -rf $(ASRC:.s=.lst)
+	-rm -rf $(ASM_SRC:.s=.lst)
 
